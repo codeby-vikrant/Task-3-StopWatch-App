@@ -81,10 +81,24 @@ class _LapsBoxState extends State<LapsBox> {
       decoration: BoxDecoration(
           color: swBoxColor, borderRadius: BorderRadius.circular(8.0)),
       child: ListView.builder(
-        itemBuilder: (context, index) {
-          return const Row();
-        },
         itemCount: laps.length,
+        itemBuilder: (context, index) {
+          return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Lap n~${index + 1}",
+                    style: const TextStyle(color: swWhite, fontSize: 16.0),
+                  ),
+                  Text(
+                    "${laps[index]}",
+                    style: const TextStyle(color: swWhite, fontSize: 16.0),
+                  ),
+                ],
+              ));
+        },
       ),
     );
   }
