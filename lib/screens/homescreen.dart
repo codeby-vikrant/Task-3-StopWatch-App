@@ -35,7 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
             const Center(
               child: Text(
                 "00:00:00",
-                style: TextStyle(color: swWhite, fontSize: 82.0, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: swWhite,
+                    fontSize: 82.0,
+                    fontWeight: FontWeight.bold),
               ),
             ),
             Container(
