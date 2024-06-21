@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_3_stopwatch_app/constants/colors.dart';
 import 'package:task_3_stopwatch_app/widgets/buttons.dart';
+import 'package:task_3_stopwatch_app/widgets/lapswidget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,16 +13,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: bgColor,
       body: SafeArea(
           child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Center(
+            Center(
               child: Text(
                 "Flutter StopWatch App",
                 style: TextStyle(
@@ -30,10 +31,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: 20.0,
             ),
-            const Center(
+            Center(
               child: Text(
                 "00:00:00",
                 style: TextStyle(
@@ -42,18 +43,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            Container(
-              height: 400.0,
-              decoration: BoxDecoration(
-                  color: swBoxColor, borderRadius: BorderRadius.circular(8.0)),
-            ),
-            const SizedBox(
+            LapsBox(),
+            SizedBox(
               height: 20,
             ),
-            const SWButtons()
+            SWButtons()
           ],
         ),
       )),
     );
   }
 }
+
+
