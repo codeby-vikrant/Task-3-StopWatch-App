@@ -11,15 +11,32 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: bgColor,
       body: SafeArea(
           child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [],
+          children: [
+            const Center(
+              child: Text(
+                "Flutter StopWatch App",
+                style: TextStyle(
+                    color: swWhite,
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            Container(
+              height: 400.0,
+              decoration: const BoxDecoration(color: swBoxColor),
+            )
+          ],
         ),
       )),
     );
