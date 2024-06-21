@@ -34,7 +34,21 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(
               height: 400.0,
-              decoration: const BoxDecoration(color: swBoxColor),
+              decoration: BoxDecoration(
+                  color: swBoxColor, borderRadius: BorderRadius.circular(8.0)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                    child: RawMaterialButton(
+                  onPressed: () {},
+                  shape: const StadiumBorder(side: BorderSide(color: swBlue)),
+                ))
+              ],
             )
           ],
         ),
