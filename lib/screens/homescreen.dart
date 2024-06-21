@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:task_3_stopwatch_app/constants/colors.dart';
 import 'package:task_3_stopwatch_app/widgets/buttons.dart';
@@ -11,6 +13,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int seconds = 0, minutes = 0, hours = 0;
+  String digitSeconds = "00", digitMinutes = "00", digitHours = "00";
+  Timer? timer;
+  bool started = false;
+  
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
