@@ -26,7 +26,19 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  
+  void reset(){
+    timer!.cancel();
+    setState(() {
+      seconds = 0;
+      minutes = 0;
+      hours = 0;
+
+      digitSeconds = "00";
+      digitMinutes = "00";
+      digitHours = "00";
+      started = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
