@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_3_stopwatch_app/screens/homescreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Flutter StopWatch App',
+      home: HomeScreen(),
     );
   }
 }
