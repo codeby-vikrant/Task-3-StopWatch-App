@@ -17,7 +17,17 @@ class _HomeScreenState extends State<HomeScreen> {
   String digitSeconds = "00", digitMinutes = "00", digitHours = "00";
   Timer? timer;
   bool started = false;
+  List laps = [];
+
+  void stop(){
+    timer!.cancel();
+    setState(() {
+      started = false;
+    });
+  }
+
   
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
