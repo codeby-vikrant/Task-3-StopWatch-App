@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Lap n~${index + 1}",
+                            "Lap N~${index + 1}",
                             style:
                                 const TextStyle(color: swWhite, fontSize: 16.0),
                           ),
