@@ -11,8 +11,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int seconds = 0, minutes = 0, hours = 0;
-  String digitSeconds = "00", digitMinutes = "00", digitHours = "00";
+  int milliseconds = 0, seconds = 0, minutes = 0;
+  String digitMilliseconds = "000", digitSeconds = "00", digitMinutes = "00";
   Timer? timer;
   bool started = false;
   List laps = [];
@@ -25,21 +25,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void reset() {
-    timer!.cancel();
+    timer?.cancel();
     setState(() {
+      milliseconds = 0;
       seconds = 0;
       minutes = 0;
-      hours = 0;
 
+      digitMilliseconds = "000";
       digitSeconds = "00";
       digitMinutes = "00";
-      digitHours = "00";
       started = false;
+      laps.clear();
     });
   }
 
   void addLaps() {
-    String lap = "$digitHours:$digitMinutes:$digitSeconds";
+    String lap = "$digitMinutes:$digitSeconds:$digitMilliseconds";
     setState(() {
       laps.add(lap);
     });
@@ -47,27 +48,29 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void start() {
     started = true;
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      int localSeconds = seconds + 1;
+    timer = Timer.periodic(const Duration(milliseconds: 1), (timer) {
+      int localMilliseconds = milliseconds + 1;
+      int localSeconds = seconds;
       int localMinutes = minutes;
-      int localHours = hours;
-      if (localSeconds > 59) {
-        if (localMinutes > 59) {
-          localHours++;
-          localMinutes = 0;
-        } else {
-          localMinutes++;
-          localSeconds = 0;
-        }
+
+      if (localMilliseconds > 999) {
+        localMilliseconds = 0;
+        localSeconds += 1;
       }
+
+      if (localSeconds > 59) {
+        localSeconds = 0;
+        localMinutes += 1;
+      }
+
       setState(() {
+        milliseconds = localMilliseconds;
         seconds = localSeconds;
         minutes = localMinutes;
-        hours = localHours;
 
-        digitSeconds = (seconds >= 10) ? "$seconds" : "0$seconds";
-        digitMinutes = (minutes >= 10) ? "$minutes" : "0$minutes";
-        digitHours = (hours >= 10) ? "$hours" : "0$hours";
+        digitMilliseconds = milliseconds.toString().padLeft(3, '0');
+        digitSeconds = seconds.toString().padLeft(2, '0');
+        digitMinutes = minutes.toString().padLeft(2, '0');
       });
     });
   }
@@ -77,107 +80,110 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: bgColor,
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Center(
-              child: Text(
-                "Flutter StopWatch App",
-                style: TextStyle(
-                    color: swWhite,
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Center(
+                child: Text(
+                  "Flutter StopWatch App",
+                  style: TextStyle(
+                      color: swWhite,
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            Center(
-              child: Text(
-                "$digitHours:$digitMinutes:$digitSeconds",
-                style: const TextStyle(
-                    color: swWhite,
-                    fontSize: 82.0,
-                    fontWeight: FontWeight.bold),
+              const SizedBox(
+                height: 20.0,
               ),
-            ),
-            Container(
-              height: 400.0,
-              decoration: BoxDecoration(
-                  color: swBoxColor, borderRadius: BorderRadius.circular(8.0)),
-              child: ListView.builder(
-                itemCount: laps.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Lap N~${index + 1}",
-                            style:
-                                const TextStyle(color: swWhite, fontSize: 16.0),
-                          ),
-                          Text(
-                            "${laps[index]}",
-                            style:
-                                const TextStyle(color: swWhite, fontSize: 16.0),
-                          ),
-                        ],
-                      ));
-                },
+              Center(
+                child: Text(
+                  "$digitMinutes:$digitSeconds:$digitMilliseconds",
+                  style: const TextStyle(
+                      color: swWhite,
+                      fontSize: 82.0,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: RawMaterialButton(
-                  onPressed: () {
-                    (!started) ? start() : stop();
+              Container(
+                height: 400.0,
+                decoration: BoxDecoration(
+                    color: swBoxColor,
+                    borderRadius: BorderRadius.circular(8.0)),
+                child: ListView.builder(
+                  itemCount: laps.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Lap N~${index + 1}",
+                              style: const TextStyle(
+                                  color: swWhite, fontSize: 16.0),
+                            ),
+                            Text(
+                              "${laps[index]}",
+                              style: const TextStyle(
+                                  color: swWhite, fontSize: 16.0),
+                            ),
+                          ],
+                        ));
                   },
-                  shape: const StadiumBorder(side: BorderSide(color: swBlue)),
-                  child: Text(
-                    (!started) ? "Start" : "Pause",
-                    style: const TextStyle(color: swWhite),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      child: RawMaterialButton(
+                    onPressed: () {
+                      (!started) ? start() : stop();
+                    },
+                    shape: const StadiumBorder(
+                        side: BorderSide(color: swBlue)),
+                    child: Text(
+                      (!started) ? "Start" : "Pause",
+                      style: const TextStyle(color: swWhite),
+                    ),
+                  )),
+                  const SizedBox(
+                    width: 8.0,
                   ),
-                )),
-                const SizedBox(
-                  width: 8.0,
-                ),
-                IconButton(
-                  onPressed: () {
-                    addLaps();
-                  },
-                  icon: const Icon(Icons.flag),
-                  color: swWhite,
-                ),
-                const SizedBox(
-                  width: 8.0,
-                ),
-                Expanded(
-                    child: RawMaterialButton(
-                  onPressed: () {
-                    reset();
-                  },
-                  fillColor: swBlue,
-                  shape: const StadiumBorder(),
-                  child: const Text(
-                    "Reset",
-                    style: TextStyle(color: swWhite),
+                  IconButton(
+                    onPressed: () {
+                      addLaps();
+                    },
+                    icon: const Icon(Icons.flag),
+                    color: swWhite,
                   ),
-                )),
-              ],
-            ),
-          ],
+                  const SizedBox(
+                    width: 8.0,
+                  ),
+                  Expanded(
+                      child: RawMaterialButton(
+                    onPressed: () {
+                      reset();
+                    },
+                    fillColor: swBlue,
+                    shape: const StadiumBorder(),
+                    child: const Text(
+                      "Reset",
+                      style: TextStyle(color: swWhite),
+                    ),
+                  )),
+                ],
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }
